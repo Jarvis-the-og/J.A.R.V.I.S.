@@ -219,3 +219,68 @@ def get_aqi(city_name):
 
     except Exception:
         return "I couldn't fetch the air quality information right now. Please try again later."
+
+# def get_weather(city):
+#     try:
+#         if not city or city.lower() == "in":
+#             speak("Please provide a valid city name to get the weather report.")
+#             return
+
+#         url = f"https://wttr.in/{city}?format=j1"
+#         response = requests.get(url)
+#         data = response.json()
+
+#         current = data['current_condition'][0]
+#         weather = current['weatherDesc'][0]['value']
+#         temp = current['temp_C']
+#         feels_like = current['FeelsLikeC']
+#         humidity = current['humidity']
+#         chance_of_rain = data['weather'][0]['hourly'][1]['chanceofrain']
+#         max_temp = data['weather'][0]['maxtempC']
+#         min_temp = data['weather'][0]['mintempC']
+
+#         message = (
+#             f"Currently in {city}, it's {weather}. "
+#             f"The temperature is {temp} degrees Celsius, feels like {feels_like}. "
+#             f"Humidity is at {humidity} percent. "
+#             f"The maximum today is {max_temp}, and the minimum is {min_temp} degrees. "
+#             f"Chance of rain is {chance_of_rain} percent."
+#         )
+
+#         print(message)
+#         speak(message)
+
+#     except Exception as e:
+#         print("Weather fetch error:", e)
+#         speak("I couldn't fetch the full weather details at the moment.")
+
+
+# def get_temperature(city):
+#     try:
+#         if not city or city.lower() == "in":
+#             speak("Please provide a valid city name to get the temperature.")
+#             return
+
+#         url = f"https://wttr.in/{city}?format=j1"
+#         response = requests.get(url)
+#         data = response.json()
+
+#         temp = data['current_condition'][0]['temp_C']
+#         print(f"The temperature in {city} is {temp}°C.")
+#         speak(f"The temperature in {city} is {temp} degrees Celsius.")
+
+#     except Exception as e:
+#         print("Temperature fetch error:", e)
+#         speak("I couldn't fetch the temperature at the moment.")
+
+# elif "weather" in query:
+                #     city = ""
+                #     if "in" in query:
+                #         city = query.split("in", 1)[-1].strip()
+                #         if not city:
+                #             speak("Please mention a proper city name to get weather.")
+                #             continue
+                #     else:
+                #         speak("Please mention a proper city name to get weather.")
+                #         continue
+                #     get_weather(city)
