@@ -1,4 +1,3 @@
-import pyttsx3
 import random
 import requests
 import time
@@ -15,17 +14,18 @@ from dictApp import openAppWeb, closeAppWeb
 from alarm import setAlarm, voice_to_time
 from timer import start_timer, voice_to_seconds
 import subprocess
-
+import sys
 # Jarvis prototype v2 - speech-to-text and text-to-speech with external conversation mapping
 
-engine = pyttsx3.init("sapi5")
-voices = engine.getProperty("voices")
-engine.setProperty("voice", voices[0].id)
-engine.setProperty("rate", 170)
+def speak(text, wait=True):
+    process = subprocess.Popen(
+        [sys.executable, "tts.py", text],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
 
-def speak(audio):
-    engine.say(audio)
-    engine.runAndWait()
+    if wait:
+        process.wait()
 
 def takeCommand():
     r = speech_recognition.Recognizer()
@@ -65,11 +65,10 @@ def run_jarvis():
 # Initial startup message
     speak("We are online and ready")
 
-
     while True:
         query = takeCommand()
         if "wake up jarvis" in query or "jarvis you up" in query or "wake up daddy's home" in query:
-            greetMe()
+            greetMe(speak)
             speak("Please mention the authentication code")
 
             query = takeCommand()
@@ -77,7 +76,6 @@ def run_jarvis():
                 speak("access granted sir")
                 print("access granted sir")
                 speak("How may I assist you today?")
-
 
                 while True:
                     query = takeCommand()
@@ -242,10 +240,27 @@ def run_jarvis():
                         else:
                             speak("Please mention a proper city name to get forecast.")
                             continue
+
                         from weather import get_forecast
                         forecast_info = get_forecast(city)
                         print(forecast_info)
                         speak(forecast_info)
+
+                    elif "aqi" in query or "air quality" in query or "pollution" in query:
+                        city = ""
+                        if " in " in query:
+                            city = query.split(" in ", 1)[-1].strip()
+                            if not city:
+                                speak("Please mention a proper city name to check air quality.")
+                                continue
+                        else:
+                            speak("Please mention a proper city name to check air quality.")
+                            continue
+
+                        from weather import get_aqi
+                        aqi_info = get_aqi(city)
+                        print(aqi_info)
+                        speak(aqi_info)
 
                     # ------------- To-Do list -------------
 
@@ -350,7 +365,7 @@ def run_jarvis():
                             speak("Please specify the volume percentage to set.")
 
                     # ------------- Wi-Fi Info -------------
-                    elif any(phrase in query for phrase in ["wifi status", "is wifi connected", "check connectivity","are we online"]):
+                    elif any(phrase in query for phrase in ["wi-fi status", "is wi-fi connected", "check connectivity","are we online"]):
                         from core import is_wifi_connected
                         result = is_wifi_connected()
                         print(result)

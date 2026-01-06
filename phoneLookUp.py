@@ -1,8 +1,14 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def lookup_phone_number(phone_number):
-    api_key = '64393141a88bf30c4a5d2b2d5b540460'  # replace with your actual API key
-    url = f"http://apilayer.net/api/validate?access_key={api_key}&number={phone_number}&format=1"
+    PHONELOOKUP_API_KEY = os.getenv("PHONELOOKUP_API_KEY")
+    if not PHONELOOKUP_API_KEY:
+        raise ValueError("PHONELOOKUP_API_KEY not found in environment variables")
+    url = f"http://apilayer.net/api/validate?access_key={PHONELOOKUP_API_KEY}&number={phone_number}&format=1"
 
     try:
         response = requests.get(url)

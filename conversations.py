@@ -33,6 +33,8 @@ def get_response(user_input):
         ])
 
     elif "who made you" in user_input:
+        url = f"https://jarvis-the-og.github.io/Portfolio/portfolio.html"
+        webbrowser.open(url)
         return random.choice([
             "You did! I'm your creation.",
             "My brilliant developer — you!",
@@ -40,6 +42,7 @@ def get_response(user_input):
             "Created by a genius - that's you!",
             "You're my maker and my master."
         ])
+        
 
     elif "tell me a joke" in user_input or "joke" in user_input:
         return random.choice([

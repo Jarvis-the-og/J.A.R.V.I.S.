@@ -1,2 +1,1 @@
-Timer running: 
- 01:18 remaining
+None
